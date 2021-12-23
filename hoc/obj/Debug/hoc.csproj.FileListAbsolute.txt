@@ -1,0 +1,10 @@
+D:\Thuc tap\c#\learn\hoc\hoc\bin\Debug\hoc.exe.config
+D:\Thuc tap\c#\learn\hoc\hoc\bin\Debug\hoc.exe
+D:\Thuc tap\c#\learn\hoc\hoc\bin\Debug\hoc.pdb
+D:\Thuc tap\c#\learn\hoc\hoc\obj\Debug\hoc.csprojAssemblyReference.cache
+D:\Thuc tap\c#\learn\hoc\hoc\obj\Debug\hoc.Form1.resources
+D:\Thuc tap\c#\learn\hoc\hoc\obj\Debug\hoc.Properties.Resources.resources
+D:\Thuc tap\c#\learn\hoc\hoc\obj\Debug\hoc.csproj.GenerateResource.cache
+D:\Thuc tap\c#\learn\hoc\hoc\obj\Debug\hoc.csproj.CoreCompileInputs.cache
+D:\Thuc tap\c#\learn\hoc\hoc\obj\Debug\hoc.exe
+D:\Thuc tap\c#\learn\hoc\hoc\obj\Debug\hoc.pdb
