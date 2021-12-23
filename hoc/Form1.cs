@@ -14,7 +14,10 @@ namespace hoc
     {
         List<VCF_File> list_obj = new List<VCF_File>();
         List<String> list_of_header = new List<String>();
+        List<String> list_of_new_header = new List<String>();
         String name_of_file = "";
+        int index_x;
+        int index_y;
         Stream fileStream;
         public Form1()
         {
@@ -107,6 +110,7 @@ namespace hoc
                     Console.Write(text);
                     list_obj = get_value_from_vcf(text);
                     update_data_grid_view();
+                    dataGridView1.MouseClick += new MouseEventHandler(mouse_click_handle);
                 }
                 catch (IOException)
                 {
@@ -133,14 +137,24 @@ namespace hoc
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView1.MouseClick += new MouseEventHandler(mouse_click_handle);
+            //dataGridView1.MouseClick += new MouseEventHandler(mouse_click_handle);
             
+        }
+        private void menu_item_click(object sender, ToolStripItemClickedEventArgs e)
+        {
+            list_of_new_header.Add(e.ClickedItem.Name.ToString());
+            DataGridViewRow rw = dataGridView1.Rows[index_x];
+            rw.Cells[1].Value = e.ClickedItem.Name.ToString();
+            Console.WriteLine(e.ClickedItem.Name.ToString());
         }
         private void mouse_click_handle(object sender, MouseEventArgs e)
         {
             ContextMenuStrip menu = new System.Windows.Forms.ContextMenuStrip();
-            int position_xy_mouse_row = dataGridView1.HitTest(e.X, e.Y).RowIndex;
-            if(e.Button == MouseButtons.Left)
+            int position_x_mouse_row = dataGridView1.HitTest(e.X, e.Y).RowIndex;
+            index_x = position_x_mouse_row;
+            int position_y_mouse_row = dataGridView1.HitTest(e.X, e.Y).ColumnIndex;
+            index_y = position_y_mouse_row;
+            if (e.Button == MouseButtons.Left && position_x_mouse_row >= 0 && position_y_mouse_row > 1)
             {
                 menu.Items.Add("Name").Name = "Name";
                 menu.Items.Add("ID").Name = "ID";
@@ -148,7 +162,9 @@ namespace hoc
                 menu.Items.Add("Hu").Name = "A";
             }
             menu.Show(dataGridView1, new Point(e.X, e.Y));
+            menu.ItemClicked += new ToolStripItemClickedEventHandler(menu_item_click);
         }
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             
