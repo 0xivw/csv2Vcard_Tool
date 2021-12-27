@@ -15,7 +15,9 @@ namespace hoc
         List<VCF_File> list_obj = new List<VCF_File>();
         List<String> list_of_header = new List<String>();
         List<String> list_of_new_header = new List<String>();
+        List<String> final = new List<String>();
         String name_of_file = "";
+        String name_of_file_with_type = "";
         int index_x;
         int index_y;
         Stream fileStream;
@@ -46,6 +48,8 @@ namespace hoc
                         list_of_header.Add(q);
                     }
                     i++;
+                    
+                    Console.WriteLine("lengh = " + list_of_new_header.Count);
                     continue;
                 }
                 String w = (String)word;
@@ -79,9 +83,9 @@ namespace hoc
                 for (int i = 0; i < arr.Count; i++)
                 {
                     wr.WriteLine("BEGIN:VCARD");
-                    wr.WriteLine("VERSION:3.0");
+                    /*wr.WriteLine("VERSION:3.0");
                     wr.WriteLine("N:" + arr[i].get_name() + ";");
-                    wr.WriteLine("END:VCARD");
+                    wr.WriteLine("END:VCARD");*/
                 }
             }
         }
@@ -111,6 +115,7 @@ namespace hoc
                     list_obj = get_value_from_vcf(text);
                     update_data_grid_view();
                     dataGridView1.MouseClick += new MouseEventHandler(mouse_click_handle);
+                    textBox1.Text = name_of_file;
                 }
                 catch (IOException)
                 {
@@ -122,6 +127,19 @@ namespace hoc
 
         private void button2_Click(object sender, EventArgs e)
         {
+            DataGridViewRow rw = new DataGridViewRow();
+            DataGridViewColumn cl = dataGridView1.Columns[2];
+            DataGridViewRow row = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex];
+            for (int i = 0; i < list_of_header.Count; i++)
+            {
+                string s = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                ///Console.WriteLine(s);
+                list_of_new_header.Add(s);
+            }
+            for (int i = 0; i < list_of_header.Count; i++)
+            {
+                Console.WriteLine(list_of_new_header[i]);
+            }
             write_vcard(list_obj);
         }
 
@@ -142,10 +160,11 @@ namespace hoc
         }
         private void menu_item_click(object sender, ToolStripItemClickedEventArgs e)
         {
-            list_of_new_header.Add(e.ClickedItem.Name.ToString());
+            //list_of_new_header.Add(e.ClickedItem.Name.ToString());
+            //list_of_new_header.Add(e.ClickedItem.Name.ToString());
             DataGridViewRow rw = dataGridView1.Rows[index_x];
             rw.Cells[1].Value = e.ClickedItem.Name.ToString();
-            Console.WriteLine(e.ClickedItem.Name.ToString());
+       
         }
         private void mouse_click_handle(object sender, MouseEventArgs e)
         {
@@ -154,6 +173,7 @@ namespace hoc
             index_x = position_x_mouse_row;
             int position_y_mouse_row = dataGridView1.HitTest(e.X, e.Y).ColumnIndex;
             index_y = position_y_mouse_row;
+ 
             if (e.Button == MouseButtons.Left && position_x_mouse_row >= 0 && position_y_mouse_row > 1)
             {
                 menu.Items.Add("Name").Name = "Name";
@@ -175,6 +195,7 @@ namespace hoc
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             string[] wordss = name_of_file.Split('.');
+            name_of_file_with_type = wordss[0];
             saveFileDialog1.InitialDirectory = wordss[0];
             Console.WriteLine(saveFileDialog1.InitialDirectory);
             saveFileDialog1.FileName = wordss[0] + ".vcf";
@@ -184,6 +205,7 @@ namespace hoc
             {
                 fileStream = saveFileDialog1.OpenFile();
             }
+            textBox2.Text = name_of_file_with_type + ".vcf";
         }
     }
 }
