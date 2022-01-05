@@ -33,52 +33,7 @@ namespace hoc
         {
             
         }
-        private List<VCF_File> get_value_from_vcf(String text)
-        {
-            List<VCF_File> arr = new List<VCF_File>();
-            string[] words = text.Split('\n');
-            int i = 0;
-            Console.WriteLine("ko chay ak");
-            foreach (var word in words)
-            {
-                VCF_File new_obj = new VCF_File();
-                if (i == 0)
-                {
-                    /*String ww = (String)word;
-                    string[] wwordss = ww.Split(',');
-                    foreach (var q in wwordss)
-                    {
-                        list_of_header.Add(q);
-                    }
-                    i++;
-                    
-                    Console.WriteLine("lengh = " + list_of_new_header.Count);*/
-                    continue;
-                }
-                String w = (String)word;
-                string[] wordss = w.Split(',');
-                int count = 0;
-                foreach (var q in wordss)
-                {
-                    if(count == 0)
-                    {
-                        new_obj.set_ID((String)q);
-                    }
-                    else if(count == 1)
-                    {
-                        new_obj.set_name(q);
-                    }
-                    else
-                    {
-                        new_obj.set_age(Int32.Parse(q));
-                    }
-                    count++;
-                }
-                arr.Add(new_obj);
-                i++;
-            }
-            return arr;
-        }
+   
         private void get_header_for_table(String text)
         {
             string[] words = text.Split('\n');
@@ -225,11 +180,11 @@ namespace hoc
             for(int i = 0; i < list_of_header.Count; i++)
             {
                 Console.WriteLine("co vao day ne");
-                dataGridView1.Rows.Add(list_of_header[i]);
+                properties_table.Rows.Add(list_of_header[i]);
                 
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void browse_button(object sender, EventArgs e)
         {
             int size = -1;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -243,11 +198,29 @@ namespace hoc
                     text_in_file = File.ReadAllText(file);
                     size = text_in_file.Length;
                     Console.Write(text_in_file);
-                    list_obj = get_value_from_vcf(text_in_file);
+                    //list_obj = get_value_from_vcf(text_in_file);
                     get_header_for_table(text_in_file);
                     update_data_grid_view();
-                    dataGridView1.MouseClick += new MouseEventHandler(mouse_click_handle);
-                    textBox1.Text = name_of_file;
+                    properties_table.MouseClick += new MouseEventHandler(mouse_click_handle);
+                    csv_address.Text = name_of_file;
+                    string[] wordss = name_of_file.Split('.');
+                    name_of_file_with_type = wordss[0];
+                    vcard_address.Text = name_of_file_with_type + ".vcf";
+                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+     
+                    saveFileDialog1.InitialDirectory = wordss[0];
+                    Console.WriteLine(saveFileDialog1.InitialDirectory);
+                    Console.WriteLine("file :" + vcard_address.Text);
+                    saveFileDialog1.FileName = vcard_address.Text;
+                    name_of_saved_file = saveFileDialog1.FileName;
+      
+                    saveFileDialog1.DefaultExt = "vcf";
+                    saveFileDialog1.Filter = "(*.vcf)|*.vcf";
+               
+                    fileStream = saveFileDialog1.OpenFile();
+
+                   
+                    vcard_address.Text = name_of_file_with_type + ".vcf";
                 }
                 catch (IOException)
                 {
@@ -257,26 +230,33 @@ namespace hoc
             Console.WriteLine(result); // <-- For debugging use.
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void convert_button(object sender, EventArgs e)
         {
             DataGridViewRow rw = new DataGridViewRow();
-            DataGridViewColumn cl = dataGridView1.Columns[2];
-            DataGridViewRow row = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex];
+            DataGridViewColumn cl = properties_table.Columns[2];
+            DataGridViewRow row = properties_table.Rows[properties_table.SelectedCells[0].RowIndex];
             Console.WriteLine("kich thuoc cua list_of_header: " + list_of_header.Count);
             for (int i = 0; i < list_of_header.Count; i++)
             {
-                if (dataGridView1.Rows[i].Cells[1].Value.ToString() == null)
+                if (properties_table.Rows[i].Cells[1].Value == null)
                 {
                     Console.WriteLine("bi null ne");
-                    continue;
+                    MessageBox.Show("Not set some attributes", "Alert");
+                    return;
                 }
-                string s = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                string s = properties_table.Rows[i].Cells[1].Value.ToString();
                 ///Console.WriteLine(s);
                 list_of_new_header.Add(s);
             }
             for (int i = 0; i < list_of_header.Count; i++)
             {
                 Console.WriteLine(list_of_new_header[i]);
+            }
+            Console.WriteLine("textbox = " + vcard_address.Text);
+            if (vcard_address.Text == "")
+            {
+                MessageBox.Show("Not set address of the file you want to save", "Alert");
+                return;
             }
             write_vcard(list_obj);
         }
@@ -298,15 +278,15 @@ namespace hoc
         }
         private void menu_item_click(object sender, ToolStripItemClickedEventArgs e)
         {
-            DataGridViewRow rw = dataGridView1.Rows[index_x];
+            DataGridViewRow rw = properties_table.Rows[index_x];
             rw.Cells[1].Value = e.ClickedItem.Name.ToString();
         }
         private void mouse_click_handle(object sender, MouseEventArgs e)
         {
             ContextMenuStrip menu = new System.Windows.Forms.ContextMenuStrip();
-            int position_x_mouse_row = dataGridView1.HitTest(e.X, e.Y).RowIndex;
+            int position_x_mouse_row = properties_table.HitTest(e.X, e.Y).RowIndex;
             index_x = position_x_mouse_row;
-            int position_y_mouse_row = dataGridView1.HitTest(e.X, e.Y).ColumnIndex;
+            int position_y_mouse_row = properties_table.HitTest(e.X, e.Y).ColumnIndex;
             index_y = position_y_mouse_row;
  
             if (e.Button == MouseButtons.Left && position_x_mouse_row >= 0 && position_y_mouse_row > 1)
@@ -322,7 +302,7 @@ namespace hoc
                 menu.Items.Add("Home Address").Name = "Home Address";
                 
             }
-            menu.Show(dataGridView1, new Point(e.X, e.Y));
+            menu.Show(properties_table, new Point(e.X, e.Y));
             menu.ItemClicked += new ToolStripItemClickedEventHandler(menu_item_click);
         }
         
@@ -332,14 +312,14 @@ namespace hoc
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void save_as_button(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             string[] wordss = name_of_file.Split('.');
-            name_of_file_with_type = wordss[0];
             saveFileDialog1.InitialDirectory = wordss[0];
             Console.WriteLine(saveFileDialog1.InitialDirectory);
-            saveFileDialog1.FileName = wordss[0] + ".vcf";
+            Console.WriteLine("file :" + vcard_address.Text);
+            saveFileDialog1.FileName = vcard_address.Text;
             name_of_saved_file = saveFileDialog1.FileName;
             Console.WriteLine(name_of_saved_file);
             saveFileDialog1.DefaultExt = "vcf";
@@ -349,7 +329,17 @@ namespace hoc
                 fileStream = saveFileDialog1.OpenFile();
             
             }
-            textBox2.Text = name_of_file_with_type + ".vcf";
+            vcard_address.Text = name_of_file_with_type + ".vcf";
+        }
+
+        private void close_button(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

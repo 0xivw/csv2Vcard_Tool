@@ -30,31 +30,31 @@ namespace hoc
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.csv_address = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.vcard_address = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.properties_table = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewButtonColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.properties_table)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox1
+            // csv_address
             // 
-            this.textBox1.Location = new System.Drawing.Point(30, 64);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(444, 35);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.csv_address.Location = new System.Drawing.Point(30, 64);
+            this.csv_address.Multiline = true;
+            this.csv_address.Name = "csv_address";
+            this.csv_address.Size = new System.Drawing.Size(444, 35);
+            this.csv_address.TabIndex = 0;
+            this.csv_address.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // contextMenuStrip1
             // 
@@ -80,7 +80,7 @@ namespace hoc
             this.button1.TabIndex = 3;
             this.button1.Text = "Browse";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.browse_button);
             // 
             // button2
             // 
@@ -90,7 +90,7 @@ namespace hoc
             this.button2.TabIndex = 4;
             this.button2.Text = "Convert";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.convert_button);
             // 
             // button3
             // 
@@ -100,6 +100,7 @@ namespace hoc
             this.button3.TabIndex = 5;
             this.button3.Text = "Close";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.close_button);
             // 
             // label2
             // 
@@ -110,13 +111,14 @@ namespace hoc
             this.label2.TabIndex = 6;
             this.label2.Text = "Vcard File";
             // 
-            // textBox2
+            // vcard_address
             // 
-            this.textBox2.Location = new System.Drawing.Point(32, 158);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(442, 38);
-            this.textBox2.TabIndex = 7;
+            this.vcard_address.Location = new System.Drawing.Point(32, 158);
+            this.vcard_address.Multiline = true;
+            this.vcard_address.Name = "vcard_address";
+            this.vcard_address.Size = new System.Drawing.Size(442, 38);
+            this.vcard_address.TabIndex = 7;
+            this.vcard_address.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // button4
             // 
@@ -126,7 +128,7 @@ namespace hoc
             this.button4.TabIndex = 8;
             this.button4.Text = "Save As";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.save_as_button);
             // 
             // label3
             // 
@@ -137,23 +139,23 @@ namespace hoc
             this.label3.TabIndex = 9;
             this.label3.Text = "Properties";
             // 
-            // dataGridView1
+            // properties_table
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.properties_table.AllowUserToAddRows = false;
+            this.properties_table.AllowUserToDeleteRows = false;
+            this.properties_table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.properties_table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.Column3});
-            this.dataGridView1.Location = new System.Drawing.Point(30, 270);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(565, 96);
-            this.dataGridView1.TabIndex = 10;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.properties_table.Location = new System.Drawing.Point(30, 270);
+            this.properties_table.Name = "properties_table";
+            this.properties_table.ReadOnly = true;
+            this.properties_table.RowHeadersWidth = 51;
+            this.properties_table.RowTemplate.Height = 24;
+            this.properties_table.Size = new System.Drawing.Size(565, 215);
+            this.properties_table.TabIndex = 10;
+            this.properties_table.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Column1
             // 
@@ -188,20 +190,20 @@ namespace hoc
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 563);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.properties_table);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.vcard_address);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.csv_address);
             this.Name = "Form1";
             this.Text = "VCF to Vcard";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.properties_table)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -209,17 +211,17 @@ namespace hoc
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox csv_address;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox vcard_address;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView properties_table;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewButtonColumn Column3;
