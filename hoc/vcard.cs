@@ -9,63 +9,36 @@ namespace hoc
     class vcard
     {
         String name_of_file;
-        String name;
-        int age;
+        String full_name;
+        String nick_name;
+        String birthday;
+        String gender;
+        String home_address;
+        String job_title;
         String mail;
         String phone_number;
-        String ID;
         public vcard()
         {
-            this.name_of_file = "";
-            this.name = "";
-            this.age = 0;
-            this.mail = "";
-            this.phone_number = "";
-        }
-        public vcard(String name_of_file, String name, int age, String mail, String phone_number)
-        {
-            this.name_of_file = name_of_file;
-            this.name = name;
-            this.age = age;
-            this.mail = mail;
-            this.phone_number = phone_number;
-        }
-        public String get_name_of_file()
-        {
-            return this.name_of_file;
-        }
-        public String get_name()
-        {
-            return this.name;
-        }
-        public String get_phone_number()
-        {
-            return this.phone_number;
-        }
-        public String get_email()
-        {
-            return this.mail;
+            this.Name_of_file = "";
+            this.Full_name = "";
+            this.Birthday = "";
+            this.Gender = "";
+            this.Home_address = "";
+            this.Job_title = "";
+            this.Mail = "";
+            this.Phone_number = "";
         }
 
-        public int get_age()
-        {
-            return this.age;
-        }
-        public void set_name(String name)
-        {
-            this.name = name;
-        }
-        public void set_mail(String mail)
-        {
-            this.mail = mail;
-        }
-        public void set_ID(String name)
-        {
-            this.ID = name;
-        }
-        public void set_age(int age)
-        {
-            this.age = age;
-        }
+        public string Name_of_file { get => name_of_file; set => name_of_file = value; }
+        public string Full_name { get => full_name; set => full_name = value; }
+        public string Nick_name { get => nick_name; set => nick_name = value; }
+        public string Birthday { get => birthday; set => birthday = value; }
+        public string Gender { get => gender; set => gender = value; }
+        public string Home_address { get => home_address; set => home_address = value; }
+        public string Job_title { get => job_title; set => job_title = value; }
+        public string Mail { get => mail; set => mail = value; }
+        public string Phone_number { get => phone_number; set => phone_number = value; }
+
+        
     }
 }

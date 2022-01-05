@@ -13,13 +13,16 @@ namespace hoc
     public partial class Form1 : Form
     {
         List<VCF_File> list_obj = new List<VCF_File>();
+        List<vcard> list_obj_vcard = new List<vcard>();
         List<String> list_of_header = new List<String>();
         List<String> list_of_new_header = new List<String>();
         List<String> final = new List<String>();
         String name_of_file = "";
         String name_of_file_with_type = "";
+        String name_of_saved_file = "";
         int index_x;
         int index_y;
+        String text_in_file;
         Stream fileStream;
         public Form1()
         {
@@ -41,7 +44,7 @@ namespace hoc
                 VCF_File new_obj = new VCF_File();
                 if (i == 0)
                 {
-                    String ww = (String)word;
+                    /*String ww = (String)word;
                     string[] wwordss = ww.Split(',');
                     foreach (var q in wwordss)
                     {
@@ -49,7 +52,7 @@ namespace hoc
                     }
                     i++;
                     
-                    Console.WriteLine("lengh = " + list_of_new_header.Count);
+                    Console.WriteLine("lengh = " + list_of_new_header.Count);*/
                     continue;
                 }
                 String w = (String)word;
@@ -76,16 +79,75 @@ namespace hoc
             }
             return arr;
         }
+        private void get_header_for_table(String text)
+        {
+            string[] words = text.Split('\n');
+            int i = 0;
+            Console.WriteLine("ko chay.....");
+            foreach (var word in words)
+            {
+                
+                if (i == 0)
+                {
+                    String ww = (String)word;
+                    string[] wwordss = ww.Split(',');
+                    foreach (var q in wwordss)
+                    {
+                        list_of_header.Add(q);
+                    }
+                    i++;
+                    Console.WriteLine("lengh = " + list_of_header.Count);
+                    return;
+                }
+          
+            }
+        }
         private void write_vcard(List<VCF_File> arr)
         {
             using (StreamWriter wr = new StreamWriter(fileStream))
             {
-                for (int i = 0; i < arr.Count; i++)
+                string[] words = text_in_file.Split('\n');
+                int length_of_obj = words.Length;
+                int i = 0;
+                foreach (var word in words)
                 {
+                    if (i == 0)
+                    {
+                        i++;
+                        continue;
+                    }
+                    if(i == length_of_obj - 1)
+                    {
+                        Console.WriteLine("end of obj");
+                        return;
+                    }
                     wr.WriteLine("BEGIN:VCARD");
-                    /*wr.WriteLine("VERSION:3.0");
-                    wr.WriteLine("N:" + arr[i].get_name() + ";");
-                    wr.WriteLine("END:VCARD");*/
+                    wr.WriteLine("VERSION:3.0");
+                    String w = (String)word;
+                    string[] wordss = w.Split(',');
+                    int count = 0;
+                    foreach (var q in wordss)
+                    {
+                        if(count == wordss.Length - 1)
+                        {
+                            break;
+                        }
+                        if (list_of_new_header[count] == "Name")
+                        {
+                            wr.WriteLine("N:"+q);
+                        }
+                        else if (list_of_new_header[count] == "ID")
+                        {
+                            wr.WriteLine("ID:" + q);
+                        }
+                        else if (list_of_new_header[count] == "Age")
+                        {
+                            wr.WriteLine("Age:" + q);
+                        }
+                        count++;
+                    }
+                    wr.WriteLine("END:VCARD");
+                    i++;
                 }
             }
         }
@@ -109,10 +171,11 @@ namespace hoc
                 name_of_file = file;
                 try
                 {
-                    string text = File.ReadAllText(file);
-                    size = text.Length;
-                    Console.Write(text);
-                    list_obj = get_value_from_vcf(text);
+                    text_in_file = File.ReadAllText(file);
+                    size = text_in_file.Length;
+                    Console.Write(text_in_file);
+                    list_obj = get_value_from_vcf(text_in_file);
+                    get_header_for_table(text_in_file);
                     update_data_grid_view();
                     dataGridView1.MouseClick += new MouseEventHandler(mouse_click_handle);
                     textBox1.Text = name_of_file;
@@ -160,11 +223,8 @@ namespace hoc
         }
         private void menu_item_click(object sender, ToolStripItemClickedEventArgs e)
         {
-            //list_of_new_header.Add(e.ClickedItem.Name.ToString());
-            //list_of_new_header.Add(e.ClickedItem.Name.ToString());
             DataGridViewRow rw = dataGridView1.Rows[index_x];
             rw.Cells[1].Value = e.ClickedItem.Name.ToString();
-       
         }
         private void mouse_click_handle(object sender, MouseEventArgs e)
         {
@@ -199,11 +259,14 @@ namespace hoc
             saveFileDialog1.InitialDirectory = wordss[0];
             Console.WriteLine(saveFileDialog1.InitialDirectory);
             saveFileDialog1.FileName = wordss[0] + ".vcf";
+            name_of_saved_file = saveFileDialog1.FileName;
+            Console.WriteLine(name_of_saved_file);
             saveFileDialog1.DefaultExt = "vcf";
             saveFileDialog1.Filter =  "(*.vcf)|*.vcf";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fileStream = saveFileDialog1.OpenFile();
+            
             }
             textBox2.Text = name_of_file_with_type + ".vcf";
         }
