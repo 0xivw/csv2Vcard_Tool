@@ -128,21 +128,90 @@ namespace hoc
                     int count = 0;
                     foreach (var q in wordss)
                     {
-                        if(count == wordss.Length - 1)
+                    
+                        Console.WriteLine("head"+list_of_new_header[count]);
+                        if (list_of_new_header[count] == "Full Name")
                         {
-                            break;
+                            wr.Write("FN:"+q);
+                            if(count != wordss.Length - 1)
+                            {
+                                wr.Write("\r");
+                            }
                         }
-                        if (list_of_new_header[count] == "Name")
+                        else if (list_of_new_header[count] == "Gender")
                         {
-                            wr.WriteLine("N:"+q);
+                            if(q == "Male")
+                            {
+                                wr.Write("GENDER:M");
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
+                            }
+                            else if(q == "Female")
+                            {
+                                wr.Write("GENDER:F");
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
+                            }
                         }
-                        else if (list_of_new_header[count] == "ID")
+                        else if (list_of_new_header[count] == "Birthday")
                         {
-                            wr.WriteLine("ID:" + q);
+                            wr.Write("BDAY:" + q);
+                            if (count != wordss.Length - 1)
+                            {
+                                wr.Write("\r");
+                            }
                         }
-                        else if (list_of_new_header[count] == "Age")
+                        else if (list_of_new_header[count] == "Nickname")
                         {
-                            wr.WriteLine("Age:" + q);
+                            wr.Write("NICKNAME:" + q);
+                            if (count != wordss.Length - 1)
+                            {
+                                wr.Write("\r");
+                            }
+                        }
+                        else if (list_of_new_header[count] == "Email")
+                        {
+                            wr.Write("EMAIL:" + q);
+                            if (count != wordss.Length - 1)
+                            {
+                                wr.Write("\r");
+                            }
+                        }
+                        else if (list_of_new_header[count] == "Mobile phone")
+                        {
+                            wr.Write("TEL;TYPE=cell:" + q);
+                            if (count != wordss.Length - 1)
+                            {
+                                wr.Write("\r");
+                            }
+                        }
+                        else if (list_of_new_header[count] == "Home address")
+                        {
+                            wr.Write("ADR;TYPE = home:" + q);
+                            if (count != wordss.Length - 1)
+                            {
+                                wr.Write("\r");
+                            }
+                        }
+                        else if (list_of_new_header[count] == "Business address")
+                        {
+                            wr.Write("ADR;TYPE = business:" + q);
+                            if (count != wordss.Length - 1)
+                            {
+                                wr.Write("\r");
+                            }
+                        }
+                        else if (list_of_new_header[count] == "Job title")
+                        {
+                            wr.Write("TITLE:" + q);
+                            if (count != wordss.Length - 1)
+                            {
+                                wr.Write("\r");
+                            }
                         }
                         count++;
                     }
@@ -193,8 +262,14 @@ namespace hoc
             DataGridViewRow rw = new DataGridViewRow();
             DataGridViewColumn cl = dataGridView1.Columns[2];
             DataGridViewRow row = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex];
+            Console.WriteLine("kich thuoc cua list_of_header: " + list_of_header.Count);
             for (int i = 0; i < list_of_header.Count; i++)
             {
+                if (dataGridView1.Rows[i].Cells[1].Value.ToString() == null)
+                {
+                    Console.WriteLine("bi null ne");
+                    continue;
+                }
                 string s = dataGridView1.Rows[i].Cells[1].Value.ToString();
                 ///Console.WriteLine(s);
                 list_of_new_header.Add(s);
@@ -236,10 +311,16 @@ namespace hoc
  
             if (e.Button == MouseButtons.Left && position_x_mouse_row >= 0 && position_y_mouse_row > 1)
             {
-                menu.Items.Add("Name").Name = "Name";
-                menu.Items.Add("ID").Name = "ID";
-                menu.Items.Add("Age").Name = "Age";
-                menu.Items.Add("Hu").Name = "A";
+                menu.Items.Add("Full Name").Name = "Full Name";
+                menu.Items.Add("Nickname").Name = "Nickname";
+                menu.Items.Add("Birthday").Name = "Birthday";
+                menu.Items.Add("Gender").Name = "Gender";
+                menu.Items.Add("Job title").Name = "Job title";
+                menu.Items.Add("Mobile phone").Name = "Mobile phone";
+                menu.Items.Add("Email").Name = "Email";
+                menu.Items.Add("Business Address").Name = "Business Address";
+                menu.Items.Add("Home Address").Name = "Home Address";
+                
             }
             menu.Show(dataGridView1, new Point(e.X, e.Y));
             menu.ItemClicked += new ToolStripItemClickedEventHandler(menu_item_click);
