@@ -215,6 +215,11 @@ namespace hoc
             properties_table.Rows.Clear();
             list_of_new_header.Clear();
             list_of_header.Clear();
+            if(fileStream != null)
+            {
+                fileStream.Close();
+            }
+            
             for(int i = 0; i < list_of_new_header.Count; i++)
             {
                 Console.WriteLine("saU" + list_of_new_header[i]);
@@ -306,6 +311,7 @@ namespace hoc
             }
             
             write_vcard();
+            fileStream.Close();
             Console.WriteLine("Done!!!");
             MessageBox.Show("Done!!!!", "Alert");
         }
