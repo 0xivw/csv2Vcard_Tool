@@ -23,6 +23,7 @@ namespace hoc
         int index_y;
         String text_in_file;
         Stream fileStream;
+        int check_exit_file_stream = 0;
         public Form1()
         {
             InitializeComponent();
@@ -83,10 +84,13 @@ namespace hoc
                         Console.WriteLine("head"+list_of_new_header[count]);
                         if (list_of_new_header[count] == "Full Name")
                         {
-                            wr.Write("FN:"+q);
-                            if(count != wordss.Length - 1)
+                            if(q != "")
                             {
-                                wr.Write("\r");
+                                wr.Write("FN:" + q);
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
                             }
                         }
                         else if (list_of_new_header[count] == "Gender")
@@ -110,59 +114,82 @@ namespace hoc
                         }
                         else if (list_of_new_header[count] == "Birthday")
                         {
-                            wr.Write("BDAY:" + q);
-                            if (count != wordss.Length - 1)
+                            if(q != "")
                             {
-                                wr.Write("\r");
+                                wr.Write("BDAY:" + q);
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
                             }
+                            
                         }
                         else if (list_of_new_header[count] == "Nickname")
                         {
-                            wr.Write("NICKNAME:" + q);
-                            if (count != wordss.Length - 1)
+                            if(q != "")
                             {
-                                wr.Write("\r");
+                                wr.Write("NICKNAME:" + q);
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
                             }
                         }
                         else if (list_of_new_header[count] == "Email")
                         {
-                            wr.Write("EMAIL:" + q);
-                            if (count != wordss.Length - 1)
+                            if(q != "")
                             {
-                                wr.Write("\r");
+                                wr.Write("EMAIL:" + q);
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
                             }
                         }
                         else if (list_of_new_header[count] == "Mobile phone")
                         {
-                            wr.Write("TEL;TYPE=cell:" + q);
-                            if (count != wordss.Length - 1)
+                            if(q != "")
                             {
-                                wr.Write("\r");
+                                wr.Write("TEL;TYPE=cell:" + q);
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
                             }
                         }
                         else if (list_of_new_header[count] == "Home Address")
                         {
-                            wr.Write("ADR;TYPE = home:" + q);
-                            if (count != wordss.Length - 1)
+                            if(q != "")
                             {
-                                wr.Write("\r");
-                            }
+                                wr.Write("ADR;TYPE=home:" + q);
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
+                            }    
                         }
                         else if (list_of_new_header[count] == "Business address")
                         {
-                            wr.Write("ADR;TYPE = business:" + q);
-                            if (count != wordss.Length - 1)
+                            if(q != "")
                             {
-                                wr.Write("\r");
+                                wr.Write("ADR;TYPE=business:" + q);
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
                             }
+                            
                         }
                         else if (list_of_new_header[count] == "Job title")
                         {
-                            wr.Write("TITLE:" + q);
-                            if (count != wordss.Length - 1)
+                            if(q != "")
                             {
-                                wr.Write("\r");
-                            }
+                                wr.Write("TITLE:" + q);
+                                if (count != wordss.Length - 1)
+                                {
+                                    wr.Write("\r");
+                                }
+                            }    
                         }
                         count++;
                     }
@@ -241,9 +268,15 @@ namespace hoc
         private void convert_button(object sender, EventArgs e)
         {
             DataGridViewRow rw = new DataGridViewRow();
+            if (csv_address.Text == "")
+            {
+                MessageBox.Show("Not choose wanted file", "Alert");
+                return;
+            }
             DataGridViewColumn cl = properties_table.Columns[2];
             DataGridViewRow row = properties_table.Rows[properties_table.SelectedCells[0].RowIndex];
             Console.WriteLine("kich thuoc cua list_of_header: " + list_of_header.Count);
+            
             for (int i = 0; i < list_of_header.Count; i++)
             {
                 if (properties_table.Rows[i].Cells[1].Value == null)
@@ -260,7 +293,11 @@ namespace hoc
             {
                 Console.WriteLine(list_of_new_header[i]);
             }
-            create_save_file();
+            if(check_exit_file_stream == 0)
+            {
+                create_save_file();
+            }
+       
             Console.WriteLine("textbox = " + vcard_address.Text);
             if (vcard_address.Text == "")
             {
@@ -327,20 +364,19 @@ namespace hoc
         private void save_as_button(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            string[] wordss = name_of_file.Split('.');
-            saveFileDialog1.InitialDirectory = wordss[0];
-            Console.WriteLine(saveFileDialog1.InitialDirectory);
-            Console.WriteLine("file :" + vcard_address.Text);
-            //saveFileDialog1.FileName = vcard_address.Text;
-            name_of_saved_file = saveFileDialog1.FileName;
-            Console.WriteLine(name_of_saved_file);
+
+            saveFileDialog1.InitialDirectory = @"C:\";
+            
             saveFileDialog1.DefaultExt = "vcf";
-            saveFileDialog1.Filter =  "(*.vcf)|*.vcf";
+            saveFileDialog1.Filter = "(*.vcf)|*.vcf";
+            saveFileDialog1.FileName = "*.vcf";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fileStream = saveFileDialog1.OpenFile();
+                vcard_address.Text = saveFileDialog1.FileName;
+                name_of_saved_file = saveFileDialog1.FileName;
+                check_exit_file_stream = 1;
             }
-            vcard_address.Text = name_of_file_with_type + ".vcf";
         }
 
         private void close_button(object sender, EventArgs e)
