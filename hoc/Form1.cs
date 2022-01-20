@@ -22,8 +22,11 @@ namespace hoc
         int index_x;
         int index_y;
         String text_in_file;
+        List<String> list_text_in_file = new List<String>();
         Stream fileStream;
         int check_exit_file_stream = 0;
+        int check_one_file = 1;
+        int cnt_file = 0;
         public Form1()
         {
             InitializeComponent();
@@ -35,179 +38,340 @@ namespace hoc
         }
         private void get_header_for_table(String text)
         {
-            string[] words = text.Split('\n');
-            int i = 0;
-            Console.WriteLine("ko chay.....");
-            foreach (var word in words)
+            if(cnt_file == 0)
             {
-                if (i == 0)
-                {
-                    String ww = (String)word;
-                    string[] wwordss = ww.Split(',');
-                    foreach (var q in wwordss)
-                    {
-                        list_of_header.Add(q);
-                    }
-                    i++;
-                    Console.WriteLine("lengh = " + list_of_header.Count);
-                    return;
-                }
-            }
-        }
-        private void write_vcard()
-        {
-            using (StreamWriter wr = new StreamWriter(fileStream))
-            {
-                string[] words = text_in_file.Split('\n');
-                int length_of_obj = words.Length;
+                string[] words = text.Split('\n');
                 int i = 0;
+                Console.WriteLine("ko chay.....");
                 foreach (var word in words)
                 {
                     if (i == 0)
                     {
+                        String ww = (String)word;
+                        string[] wwordss = ww.Split(',');
+                        foreach (var q in wwordss)
+                        {
+                            list_of_header.Add(q);
+                        }
                         i++;
-                        continue;
-                    }
-                    if(i == length_of_obj - 1)
-                    {
-                        Console.WriteLine("end of obj");
+                        Console.WriteLine("lengh = " + list_of_header.Count);
                         return;
                     }
-                    wr.WriteLine("BEGIN:VCARD");
-                    wr.WriteLine("VERSION:3.0");
-                    String w = (String)word;
-                    string[] wordss = w.Split(',');
-                    int count = 0;
-                    foreach (var q in wordss)
-                    {
-                    
-                        Console.WriteLine("head"+list_of_new_header[count]);
-                        if (list_of_new_header[count] == "Full Name")
-                        {
-                            if(q != "")
-                            {
-                                wr.Write("FN:" + q);
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }
-                        }
-                        else if (list_of_new_header[count] == "Gender")
-                        {
-                            if(q == "Male")
-                            {
-                                wr.Write("GENDER:M");
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }
-                            else if(q == "Female")
-                            {
-                                wr.Write("GENDER:F");
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }
-                        }
-                        else if (list_of_new_header[count] == "Birthday")
-                        {
-                            if(q != "")
-                            {
-                                wr.Write("BDAY:" + q);
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }
-                            
-                        }
-                        else if (list_of_new_header[count] == "Nickname")
-                        {
-                            if(q != "")
-                            {
-                                wr.Write("NICKNAME:" + q);
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }
-                        }
-                        else if (list_of_new_header[count] == "Email")
-                        {
-                            if(q != "")
-                            {
-                                wr.Write("EMAIL:" + q);
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }
-                        }
-                        else if (list_of_new_header[count] == "Mobile phone")
-                        {
-                            if(q != "")
-                            {
-                                wr.Write("TEL;TYPE=cell:" + q);
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }
-                        }
-                        else if (list_of_new_header[count] == "Home Address")
-                        {
-                            if(q != "")
-                            {
-                                wr.Write("ADR;TYPE=home:" + q);
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }    
-                        }
-                        else if (list_of_new_header[count] == "Business address")
-                        {
-                            if(q != "")
-                            {
-                                wr.Write("ADR;TYPE=business:" + q);
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }
-                            
-                        }
-                        else if (list_of_new_header[count] == "Job title")
-                        {
-                            if(q != "")
-                            {
-                                wr.Write("TITLE:" + q);
-                                if (count != wordss.Length - 1)
-                                {
-                                    wr.Write("\r");
-                                }
-                            }    
-                        }
-                        count++;
-                    }
-                    wr.WriteLine("END:VCARD");
-                    i++;
                 }
-                
+                cnt_file++;
             }
+            
+        }
+        private void write_vcard()
+        {
+            if(check_one_file == 1)
+            {
+                using (StreamWriter wr = new StreamWriter(fileStream, Encoding.UTF8))
+                {
+                    string[] words = text_in_file.Split('\n');
+                    int length_of_obj = words.Length;
+                    int i = 0;
+                    foreach (var word in words)
+                    {
+                        if (i == 0)
+                        {
+                            i++;
+                            continue;
+                        }
+                        if (i == length_of_obj - 1)
+                        {
+                            Console.WriteLine("end of obj");
+                            return;
+                        }
+                        wr.WriteLine("BEGIN:VCARD");
+                        wr.WriteLine("VERSION:3.0");
+                        String w = (String)word;
+                        string[] wordss = w.Split(',');
+                        int count = 0;
+                        foreach (var q in wordss)
+                        {
+                            Console.WriteLine("head" + list_of_new_header[count]);
+                            if (list_of_new_header[count] == "Full Name")
+                            {
+                                if (q != "")
+                                {
+                                    wr.Write("FN:" + q);
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+                            }
+                            else if (list_of_new_header[count] == "Gender")
+                            {
+                                if (q == "Male")
+                                {
+                                    wr.Write("GENDER:M");
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+                                else if (q == "Female")
+                                {
+                                    wr.Write("GENDER:F");
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+                            }
+                            else if (list_of_new_header[count] == "Birthday")
+                            {
+                                if (q != "")
+                                {
+                                    wr.Write("BDAY:" + q);
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+
+                            }
+                            else if (list_of_new_header[count] == "Nickname")
+                            {
+                                if (q != "")
+                                {
+                                    wr.Write("NICKNAME:" + q);
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+                            }
+                            else if (list_of_new_header[count] == "Email")
+                            {
+                                if (q != "")
+                                {
+                                    wr.Write("EMAIL:" + q);
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+                            }
+                            else if (list_of_new_header[count] == "Mobile phone")
+                            {
+                                if (q != "")
+                                {
+                                    wr.Write("TEL;TYPE=cell:" + q);
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+                            }
+                            else if (list_of_new_header[count] == "Home Address")
+                            {
+                                if (q != "")
+                                {
+                                    wr.Write("ADR;TYPE=home:" + q);
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+                            }
+                            else if (list_of_new_header[count] == "Business address")
+                            {
+                                if (q != "")
+                                {
+                                    wr.Write("ADR;TYPE=business:" + q);
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+
+                            }
+                            else if (list_of_new_header[count] == "Job title")
+                            {
+                                if (q != "")
+                                {
+                                    wr.Write("TITLE:" + q);
+                                    if (count != wordss.Length - 1)
+                                    {
+                                        wr.Write("\r");
+                                    }
+                                }
+                            }
+                            count++;
+                        }
+                        wr.WriteLine("END:VCARD");
+                        i++;
+                    }
+
+                }
+            }
+            else
+            {
+                using (StreamWriter wr = new StreamWriter(fileStream, Encoding.UTF8))
+                {
+                    Console.WriteLine("do dai = " + list_text_in_file.Count);
+                    for (int qq = 0; qq < list_text_in_file.Count; qq++)
+                    {
+                        string[] words = list_text_in_file[qq].Split('\n');
+                        Console.WriteLine("wordss = " + list_text_in_file[qq]);
+                        int length_of_obj = words.Length;
+                        int i = 0;
+                        foreach (var word in words)
+                        {
+                            if (i == 0)
+                            {
+                                i++;
+                                continue;
+                            }
+                            if (i == length_of_obj - 1)
+                            {
+                                Console.WriteLine("end of obj");
+                                continue;
+                            }
+                            wr.WriteLine("BEGIN:VCARD");
+                            wr.WriteLine("VERSION:3.0");
+                            String w = (String)word;
+                            string[] wordss = w.Split(',');
+                            int count = 0;
+                            foreach (var q in wordss)
+                            {
+                                Console.WriteLine("head" + list_of_new_header[count]);
+                                if (list_of_new_header[count] == "Full Name")
+                                {
+                                    if (q != "")
+                                    {
+                                        wr.Write("FN:" + q);
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+                                }
+                                else if (list_of_new_header[count] == "Gender")
+                                {
+                                    if (q == "Male")
+                                    {
+                                        wr.Write("GENDER:M");
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+                                    else if (q == "Female")
+                                    {
+                                        wr.Write("GENDER:F");
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+                                }
+                                else if (list_of_new_header[count] == "Birthday")
+                                {
+                                    if (q != "")
+                                    {
+                                        wr.Write("BDAY:" + q);
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+
+                                }
+                                else if (list_of_new_header[count] == "Nickname")
+                                {
+                                    if (q != "")
+                                    {
+                                        wr.Write("NICKNAME:" + q);
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+                                }
+                                else if (list_of_new_header[count] == "Email")
+                                {
+                                    if (q != "")
+                                    {
+                                        wr.Write("EMAIL:" + q);
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+                                }
+                                else if (list_of_new_header[count] == "Mobile phone")
+                                {
+                                    if (q != "")
+                                    {
+                                        wr.Write("TEL;TYPE=cell:" + q);
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+                                }
+                                else if (list_of_new_header[count] == "Home Address")
+                                {
+                                    if (q != "")
+                                    {
+                                        wr.Write("ADR;TYPE=home:" + q);
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+                                }
+                                else if (list_of_new_header[count] == "Business address")
+                                {
+                                    if (q != "")
+                                    {
+                                        wr.Write("ADR;TYPE=business:" + q);
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+
+                                }
+                                else if (list_of_new_header[count] == "Job title")
+                                {
+                                    if (q != "")
+                                    {
+                                        wr.Write("TITLE:" + q);
+                                        if (count != wordss.Length - 1)
+                                        {
+                                            wr.Write("\r");
+                                        }
+                                    }
+                                }
+                                count++;
+                            }
+                            wr.WriteLine("END:VCARD");
+                            i++;
+                        }
+                    }
+                }
+            }
+            
             
         }
         private void update_data_grid_view()
         {
-            for(int i = 0; i < list_of_header.Count; i++)
+            if (cnt_file == 0)
             {
-                Console.WriteLine("co vao day ne");
-                properties_table.Rows.Add(list_of_header[i]);
-                
+                for (int i = 0; i < list_of_header.Count; i++)
+                {
+                    Console.WriteLine("co vao day ne");
+                    properties_table.Rows.Add(list_of_header[i]);
+
+                }
+                cnt_file++;
             }
+
         }
         private void browse_button(object sender, EventArgs e)
         {
@@ -219,36 +383,70 @@ namespace hoc
             {
                 fileStream.Close();
             }
-            
+            Console.WriteLine("choose " + check_one_file);
             for(int i = 0; i < list_of_new_header.Count; i++)
             {
                 Console.WriteLine("saU" + list_of_new_header[i]);
             }
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
-            if (result == DialogResult.OK) // Test result.
+            if(check_one_file == 1)
             {
-                string file = openFileDialog1.FileName;
-                name_of_file = file;
-                string[] name = name_of_file.Split('.');
-                try
+                OpenFileDialog openFileDialog1 = new OpenFileDialog();
+                DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
+                if (result == DialogResult.OK) // Test result.
                 {
-                    text_in_file = File.ReadAllText(file);
-                    size = text_in_file.Length;
-                    Console.Write(text_in_file);
-                    //list_obj = get_value_from_vcf(text_in_file);
-                    get_header_for_table(text_in_file);
-                    update_data_grid_view();
-                    properties_table.MouseClick += new MouseEventHandler(mouse_click_handle);
-                    csv_address.Text = name_of_file;
-                    vcard_address.Text = name[0] + ".vcf";
-                }
-                catch (IOException)
-                {
+                    string file = openFileDialog1.FileName;
+                    name_of_file = file;
+                    string[] name = name_of_file.Split('.');
+                    try
+                    {
+                        text_in_file = File.ReadAllText(file);
+                        size = text_in_file.Length;
+                        Console.Write(text_in_file);
+                        //list_obj = get_value_from_vcf(text_in_file);
+                        get_header_for_table(text_in_file);
+                        update_data_grid_view();
+                        properties_table.MouseClick += new MouseEventHandler(mouse_click_handle);
+                        csv_address.Text = name_of_file;
+                        vcard_address.Text = name[0] + ".vcf";
+                    }
+                    catch (IOException)
+                    {
+                    }
                 }
             }
-            Console.WriteLine(size); // <-- Shows file size in debugging mode.
-            Console.WriteLine(result); // <-- For debugging use.
+            else
+            {
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    DialogResult result = fbd.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        string[] file = Directory.GetFiles(fbd.SelectedPath);
+                        //string file = openFileDialog1.FileName;
+                        for (int i = 0; i < file.Length; i++)
+                        {
+                            name_of_file = file[i];
+                            Console.WriteLine(name_of_file);
+                            string[] name = name_of_file.Split('.');
+                            try
+                            {
+                                list_text_in_file.Add(File.ReadAllText(file[i], Encoding.UTF8));
+                                //size = list_text_in_file[i].Length;
+                                Console.WriteLine("hehe: "+ list_text_in_file[i]);
+                                get_header_for_table(list_text_in_file[i]);
+                                update_data_grid_view();
+                                properties_table.MouseClick += new MouseEventHandler(mouse_click_handle);
+                                csv_address.Text = name_of_file;
+                                vcard_address.Text = name[0] + ".vcf";
+                            }
+                            catch (IOException)
+                            {
+                            }
+                        }
+                    }
+                }
+            }
         }
         private void create_save_file()
         {
@@ -393,6 +591,30 @@ namespace hoc
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                checkBox2.Checked = false;
+                check_one_file = 1;
+                cnt_file = 0;
+                list_text_in_file.Clear();
+            }
+            Console.WriteLine("as"+check_one_file);
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox2.Checked == true)
+            {
+                checkBox1.Checked = false;
+                check_one_file = 0;
+                cnt_file = 0;
+                list_text_in_file.Clear();
+            }
+            Console.WriteLine("qw"+check_one_file);
         }
     }
 }

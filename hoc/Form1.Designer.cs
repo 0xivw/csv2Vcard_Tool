@@ -44,12 +44,14 @@ namespace hoc
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.properties_table)).BeginInit();
             this.SuspendLayout();
             // 
             // csv_address
             // 
-            this.csv_address.Location = new System.Drawing.Point(30, 64);
+            this.csv_address.Location = new System.Drawing.Point(28, 110);
             this.csv_address.Multiline = true;
             this.csv_address.Name = "csv_address";
             this.csv_address.Size = new System.Drawing.Size(444, 35);
@@ -65,7 +67,7 @@ namespace hoc
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 38);
+            this.label1.Location = new System.Drawing.Point(25, 84);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 17);
             this.label1.TabIndex = 2;
@@ -74,7 +76,7 @@ namespace hoc
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(503, 64);
+            this.button1.Location = new System.Drawing.Point(501, 110);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(83, 35);
             this.button1.TabIndex = 3;
@@ -84,7 +86,7 @@ namespace hoc
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(429, 507);
+            this.button2.Location = new System.Drawing.Point(369, 549);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(105, 33);
             this.button2.TabIndex = 4;
@@ -94,7 +96,7 @@ namespace hoc
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(548, 507);
+            this.button3.Location = new System.Drawing.Point(503, 549);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(93, 33);
             this.button3.TabIndex = 5;
@@ -105,7 +107,7 @@ namespace hoc
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 123);
+            this.label2.Location = new System.Drawing.Point(25, 169);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 17);
             this.label2.TabIndex = 6;
@@ -113,7 +115,7 @@ namespace hoc
             // 
             // vcard_address
             // 
-            this.vcard_address.Location = new System.Drawing.Point(32, 158);
+            this.vcard_address.Location = new System.Drawing.Point(30, 204);
             this.vcard_address.Multiline = true;
             this.vcard_address.Name = "vcard_address";
             this.vcard_address.Size = new System.Drawing.Size(442, 38);
@@ -122,7 +124,7 @@ namespace hoc
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(503, 158);
+            this.button4.Location = new System.Drawing.Point(501, 204);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(83, 38);
             this.button4.TabIndex = 8;
@@ -133,7 +135,7 @@ namespace hoc
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 230);
+            this.label3.Location = new System.Drawing.Point(25, 271);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 17);
             this.label3.TabIndex = 9;
@@ -148,7 +150,7 @@ namespace hoc
             this.Column1,
             this.Column2,
             this.Column3});
-            this.properties_table.Location = new System.Drawing.Point(30, 270);
+            this.properties_table.Location = new System.Drawing.Point(32, 311);
             this.properties_table.Name = "properties_table";
             this.properties_table.ReadOnly = true;
             this.properties_table.RowHeadersWidth = 51;
@@ -185,11 +187,37 @@ namespace hoc
             this.Column3.Text = "Select";
             this.Column3.UseColumnTextForButtonValue = true;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(125, 39);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(95, 21);
+            this.checkBox1.TabIndex = 11;
+            this.checkBox1.Text = "Single File";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(354, 39);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(104, 21);
+            this.checkBox2.TabIndex = 12;
+            this.checkBox2.Text = "Multiple File";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(653, 563);
+            this.ClientSize = new System.Drawing.Size(622, 603);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.properties_table);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button4);
@@ -225,6 +253,8 @@ namespace hoc
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewButtonColumn Column3;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 
